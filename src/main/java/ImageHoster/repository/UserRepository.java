@@ -4,6 +4,8 @@ import ImageHoster.model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //The annotation is a special type of @Component annotation which describes that the class defines a data repository
 @Repository
@@ -11,7 +13,10 @@ public class UserRepository {
     //Get an instance of EntityManagerFactory from persistence unit with name as 'imageHoster'
     @PersistenceUnit(unitName = "imageHoster")
     private EntityManagerFactory emf;
+    private Pattern pattern;
+    private Matcher matcher;
 
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=])(?=\\S+$)$";
     //The method receives the User object to be persisted in the database
     //Creates an instance of EntityManager
     //Starts a transaction
@@ -48,5 +53,11 @@ public class UserRepository {
         } catch (NoResultException nre) {
             return null;
         }
+    }
+
+    public Boolean validatePassword(String password){
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 }
