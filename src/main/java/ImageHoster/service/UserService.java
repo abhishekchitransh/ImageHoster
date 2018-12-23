@@ -32,4 +32,9 @@ public class UserService {
         }
     }
 
+    public boolean validatePassword(String password){
+        boolean isValid = userRepository.validatePassword(password);
+
+        return isValid;
+    }
 }
