@@ -17,7 +17,7 @@ public class UserRepository {
     private Matcher matcher;
 
     //password should contain atleast 1 character, 1 number and 1 special character.
-    private static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-zA-Z])(?=.*[@#$%]).{3,8})";
+    private static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-zA-Z])(?=.*[@#$%]).{3,10})";
     //The method receives the User object to be persisted in the database
     //Creates an instance of EntityManager
     //Starts a transaction
