@@ -1,10 +1,8 @@
 package ImageHoster.controller;
 
-import ImageHoster.model.Comment;
 import ImageHoster.model.Image;
 import ImageHoster.model.Tag;
 import ImageHoster.model.User;
-import ImageHoster.service.CommentService;
 import ImageHoster.service.ImageService;
 import ImageHoster.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +28,6 @@ public class ImageController {
 
     @Autowired
     private TagService tagService;
-
-    @Autowired
-    private CommentService commentService;
 
     //This method displays all the images in the user home page after successful login
     @RequestMapping("images")
@@ -162,20 +157,6 @@ public class ImageController {
     public String deleteImageSubmit(@RequestParam(name = "imageId") Integer imageId) {
         imageService.deleteImage(imageId);
         return "redirect:/images";
-    }
-
-    @RequestMapping(value = "/images/{id}/{title}/comments", method = RequestMethod.POST)
-    public String createComment(@PathVariable("id") Integer id, @RequestParam("comment") String imageComment, HttpSession session){
-        User user = (User) session.getAttribute("loggeduser");
-        Image image = imageService.getImage(id);
-        Comment comment = new Comment();
-        comment.setUser(user);
-        comment.setImage(image);
-        comment.setCreatedDate(new Date());
-        comment.setText(imageComment);
-
-        commentService.addComment(comment);
-        return "redirect:/images/" + image.getId() + "/" + image.getTitle();
     }
 
     //This method converts the image to Base64 format
